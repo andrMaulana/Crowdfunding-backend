@@ -130,7 +130,8 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 		return
 	}
 	// harusnya dari jwt
-	userID := 1
+	currentUser := c.MustGet("currentUser").(user.User)
+	userID := currentUser.ID
 
 	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
 	err = c.SaveUploadedFile(file, path)
@@ -151,5 +152,4 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 	data := gin.H{"is_uploaded": true}
 	response := helper.APIResponse("Avatar to uploaded successfully", http.StatusOK, "success", data)
 	c.JSON(http.StatusOK, response)
-
 }
