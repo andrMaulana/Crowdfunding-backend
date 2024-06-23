@@ -26,3 +26,14 @@ func (r *repository) FindAll() ([]Campaign, error) {
 
 	return campaigns, nil
 }
+
+// method FindByID
+func (r *repository) FindByID(userID int) ([]Campaign, error) {
+	var campaigns []Campaign
+	err := r.db.Where("user_id = ?", userID).Find(&campaigns).Error
+	if err != nil {
+		return campaigns, err
+	}
+
+	return campaigns, nil
+}
