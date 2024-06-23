@@ -14,3 +14,15 @@ type repository struct {
 func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
+
+// Method FindAll
+func (r *repository) FindAll() ([]Campaign, error) {
+	var campaigns []Campaign
+
+	err := r.db.Find(&campaigns).Error
+	if err != nil {
+		return campaigns, err
+	}
+
+	return campaigns, nil
+}
