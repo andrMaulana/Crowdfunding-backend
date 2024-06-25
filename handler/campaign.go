@@ -13,12 +13,12 @@ type campaignHandler struct {
 	service campaign.Service
 }
 
-func newCampaignHandler(service campaign.Service) *campaignHandler {
+func NewCampaignHandler(service campaign.Service) *campaignHandler {
 	return &campaignHandler{service}
 }
 
 func (h *campaignHandler) GetCampaigns(c *gin.Context) {
-	userID, _ := strconv.Atoi("user_id")
+	userID, _ := strconv.Atoi(c.Query("user_id"))
 
 	campaigns, err := h.service.GetCampaigns(userID)
 	if err != nil {
