@@ -31,7 +31,7 @@ func main() {
 	campaignService := campaign.NewService(campainRepository)
 	authService := auth.NewService()
 
-	campaigns, _ := campaignService.FindCampaigns(8)
+	campaigns, _ := campaignService.GetCampaigns(1)
 	fmt.Printf("Total data campaign : %d\n", len(campaigns))
 
 	userHandler := handler.NewUserHandler(userService, authService)
