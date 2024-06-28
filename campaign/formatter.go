@@ -82,6 +82,12 @@ func FormatCampaignDetail(campaign Campaign) CampaignDetailFormatter {
 		perks = append(perks, strings.TrimSpace(perk))
 	}
 	campaignDetailFormatter.Perks = perks
+	user := campaign.User
+	campaignUserFormatter := CampaignUserFormatter{}
+	campaignUserFormatter.Name = user.Name
+	campaignUserFormatter.ImageURL = user.AvatarFilename
+
+	campaignDetailFormatter.User = campaignUserFormatter
 
 	return campaignDetailFormatter
 }
