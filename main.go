@@ -30,33 +30,22 @@ func main() {
 	campaignService := campaign.NewService(campainRepository)
 	authService := auth.NewService()
 
-	input := campaign.CreateCampaignInput{}
-	input.Name = "Penggalangan Dana Startup"
-	input.ShortDescription = "short"
-	input.Description = "looooooooong"
-	input.GoalAmount = 100000000
-	input.Perks = "hadiah satu, dua, tiga"
-
-	inputUser, _ := userService.GetUserByID(4)
-	input.User = inputUser
-	_, err = campaignService.CreateCampaign(input)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-
 	userHandler := handler.NewUserHandler(userService, authService)
 	campaignhandler := handler.NewCampaignHandler(campaignService)
 
 	router := gin.Default()
 	router.Static("/images", "./images")
 	api := router.Group("/api/v1")
+	// route user
 	api.POST("/users", userHandler.RegisterUser)
 	api.POST("/session", userHandler.Login)
 	api.POST("/email_checkers", userHandler.CheckEmailAvailability)
 	api.POST("/avatars", authMiddleware(authService, userService), userHandler.UploadAvatar)
 
+	// route campaign
 	api.GET("/campaigns", campaignhandler.GetCampaigns)
 	api.GET("/campaigns/:id", campaignhandler.GetCampaign)
+	api.POST("/campaigns", authMiddleware(authService, userService), campaignhandler.CreateCampaign)
 	router.Run()
 }
 
