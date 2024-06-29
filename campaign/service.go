@@ -56,7 +56,7 @@ func (s *service) CreateCampaign(input CreateCampaignInput) (Campaign, error) {
 	campaign.GoalAmount = input.GoalAmount
 	campaign.UserID = input.User.ID
 
-	generateSlug := fmt.Sprintf("%s %s", input.Name, input.User.ID)
+	generateSlug := fmt.Sprintf("%s %d", input.Name, input.User.ID)
 	campaign.Slug = slug.Make(generateSlug)
 
 	newCampaign, err := s.repository.Save(campaign)
