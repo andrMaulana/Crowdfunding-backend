@@ -5,6 +5,7 @@ import (
 	"crowdfunding/campaign"
 	"crowdfunding/handler"
 	"crowdfunding/helper"
+	"crowdfunding/transaction"
 	"crowdfunding/user"
 	"log"
 	"net/http"
@@ -25,13 +26,16 @@ func main() {
 
 	userRepository := user.NewRepository(db)
 	campainRepository := campaign.NewRepository(db)
+	transactionRepository := transaction.NewRepository(db)
 
 	userService := user.NewService(userRepository)
 	campaignService := campaign.NewService(campainRepository)
+	transactionService := transaction.NewService(transactionRepository, campainRepository)
 	authService := auth.NewService()
 
 	userHandler := handler.NewUserHandler(userService, authService)
 	campaignhandler := handler.NewCampaignHandler(campaignService)
+	transactionHandler := handler.NewHandler(transactionService)
 
 	router := gin.Default()
 	router.Static("/images", "./images")
@@ -48,6 +52,9 @@ func main() {
 	api.POST("/campaigns", authMiddleware(authService, userService), campaignhandler.CreateCampaign)
 	api.PUT("/campaigns/:id", authMiddleware(authService, userService), campaignhandler.UpdateCampaign)
 	api.POST("/campaigns-images", authMiddleware(authService, userService), campaignhandler.UploadImage)
+
+	// route transactions
+	api.GET("/campaigns/:id/transactions", authMiddleware(authService, userService), transactionHandler.GetCampaignTransactions)
 	router.Run()
 }
 
