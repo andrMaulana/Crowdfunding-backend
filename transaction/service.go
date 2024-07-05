@@ -1,5 +1,10 @@
 package transaction
 
+import (
+	"crowdfunding/campaign"
+	"errors"
+)
+
 type Service interface {
 	GetTransactionByCampaignID(input GetCampaignTransactionsInput) ([]Transaction, error)
 }
