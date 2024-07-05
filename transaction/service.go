@@ -5,7 +5,8 @@ type Service interface {
 }
 
 type service struct {
-	repository Repository
+	repository         Repository
+	campaignRepository campaign.Repository
 }
 
 func NewService(repository Repository, campaignRepository campaign.Repository) *service {
