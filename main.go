@@ -34,6 +34,7 @@ func main() {
 
 	userHandler := handler.NewUserHandler(userService, authService)
 	campaignhandler := handler.NewCampaignHandler(campaignService)
+	transactionHandler := handler.NewHandler(transactionService)
 
 	router := gin.Default()
 	router.Static("/images", "./images")
