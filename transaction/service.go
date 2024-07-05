@@ -8,8 +8,8 @@ type service struct {
 	repository Repository
 }
 
-func NewService(repository Repository) *service {
-	return &service{repository}
+func NewService(repository Repository, campaignRepository campaign.Repository) *service {
+	return &service{repository, campaignRepository}
 }
 
 func (s *service) GetTransactionByCampaignID(input GetCampaignTransactionsInput) ([]Transaction, error) {
